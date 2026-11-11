@@ -35,11 +35,11 @@
 
 .brand-title {
   display: block;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 1.45rem;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.35rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1.05;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
   color: var(--emerald);
 }
 

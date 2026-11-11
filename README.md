@@ -1,4 +1,4 @@
-# Verve Folio
+# Wilmar Trance
 
 Aplikasi web pencatat arus kas pribadi dan target tabungan berbasis React + Vite dengan konsep visual *Quiet Heritage Banking*. Dibuat untuk memantau pemasukan, pengeluaran, dan progres tabungan per target tanpa sistem saldo dompet mengendap.
 

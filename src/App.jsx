@@ -40,7 +40,7 @@ function LayoutUtama({ padaResetData, pesanErrorStorage }) {
       </div>
       <footer className="app-footer">
         <div className="footer-inner">
-          <span className="mono">&copy; El Hakeem Wilmar &middot; Verve Folio</span>
+          <span className="mono">&copy; El Hakeem Wilmar &middot; Wilmar Trance</span>
         </div>
       </footer>
     </div>

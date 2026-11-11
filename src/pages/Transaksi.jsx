@@ -55,7 +55,7 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
                 id="cari-transaksi"
                 type="text"
                 className="brutal-input with-icon"
-                placeholder="Contoh: Honor asisten, Kopi, Bensin..."
+                placeholder="Contoh: Beli rumah"
                 value={kataKunci}
                 onChange={(e) => setKataKunci(e.target.value)}
               />

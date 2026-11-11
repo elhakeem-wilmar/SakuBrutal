@@ -17,33 +17,35 @@ function Navbar({ padaResetData }) {
           <div className="brand-icon" aria-hidden="true">
             <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
               <path
-                d="M14 19L25 46L36 19"
+                d="M13 22L19.5 43L25 27L30.5 43L37 22"
                 stroke="#F8F6F0"
-                strokeWidth="4.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M35 46V19H50"
-                stroke="#C5A46D"
-                strokeWidth="4.5"
+                strokeWidth="4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
               <line
-                x1="35"
-                y1="32"
-                x2="46"
-                y2="32"
+                x1="38"
+                y1="22"
+                x2="51"
+                y2="22"
                 stroke="#C5A46D"
-                strokeWidth="4.5"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+              <line
+                x1="44.5"
+                y1="22"
+                x2="44.5"
+                y2="43"
+                stroke="#C5A46D"
+                strokeWidth="4"
                 strokeLinecap="round"
               />
             </svg>
           </div>
           <div>
-            <span className="brand-title">VERVE FOLIO</span>
-            <span className="brand-subtitle">Personal Cashflow & Savings</span>
+            <span className="brand-title">WILMAR TRANCE</span>
+            <span className="brand-subtitle">Private Cashflow & Savings Ledger</span>
           </div>
         </div>
 

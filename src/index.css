@@ -54,7 +54,9 @@ select:disabled {
 }
 
 .mono {
-  font-family: "Space Mono", monospace;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 .layout-root {

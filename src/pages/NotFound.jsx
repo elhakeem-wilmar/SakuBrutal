@@ -12,8 +12,8 @@ function NotFound() {
         </div>
         <h1 className="page-heading">404: Page Not Found</h1>
         <p className="page-sub">
-          Alamat URL yang kamu tuju tidak terdaftar di sistem pencatatan Verve
-          Folio.
+          Alamat URL yang kamu tuju tidak terdaftar di sistem pencatatan
+          Wilmar Trance.
         </p>
         <NavLink to="/" className="brutal-btn">
           <Home size={17} strokeWidth={2} aria-hidden="true" />
