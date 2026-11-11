@@ -1,7 +1,25 @@
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .page-container {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  animation: pageEnter 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-container {
+    animation: none;
+  }
 }
 
 .hero-banner {
@@ -70,6 +88,17 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+}
+
+.summary-card {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(20, 28, 24, 0.08);
 }
 
 .summary-card.gold {
@@ -402,11 +431,17 @@
   background: var(--bg-paper);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-brutal);
-  transition: border-color 0.15s ease;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .trx-item:hover {
+  transform: translateX(3px);
   border-color: var(--gold);
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(20, 28, 24, 0.05);
 }
 
 .trx-left {
@@ -607,6 +642,14 @@
   flex-direction: column;
   gap: 14px;
   border-top: 3px solid var(--gold);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s ease;
+}
+
+.budget-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(20, 28, 24, 0.08);
 }
 
 .budget-top {
@@ -639,7 +682,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .progress-fill {
-    transition: width 0.25s ease;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
