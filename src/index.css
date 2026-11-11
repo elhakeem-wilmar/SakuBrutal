@@ -1,0 +1,199 @@
+:root {
+  --bg-paper: #fffdf5;
+  --bg-card: #ffffff;
+  --ink: #111111;
+  --ink-muted: #374151;
+  --emerald: #22c55e;
+  --emerald-soft: #dcfce7;
+  --gold: #facc15;
+  --gold-soft: #fef9c3;
+  --coral: #fb7185;
+  --coral-soft: #ffe4e6;
+  --border-brutal: 3px solid #111111;
+  --shadow-brutal: 4px 4px 0px #111111;
+  --shadow-brutal-lg: 6px 6px 0px #111111;
+  --radius-brutal: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-paper);
+  color: var(--ink);
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+a[href],
+button:not(:disabled),
+select:not(:disabled),
+label[for],
+input[type="date"]:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.mono {
+  font-family: "Space Mono", monospace;
+}
+
+.layout-root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell {
+  flex: 1;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+}
+
+.brutal-card {
+  background: var(--bg-card);
+  border: var(--border-brutal);
+  box-shadow: var(--shadow-brutal);
+  border-radius: var(--radius-brutal);
+  padding: 20px;
+}
+
+.brutal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 10px 16px;
+  border: var(--border-brutal);
+  border-radius: var(--radius-brutal);
+  box-shadow: var(--shadow-brutal);
+  background: var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .brutal-btn {
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  }
+}
+
+.brutal-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #111111;
+}
+
+.brutal-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #111111;
+}
+
+.brutal-btn.emerald {
+  background: var(--emerald);
+}
+
+.brutal-btn.coral {
+  background: var(--coral);
+}
+
+.brutal-btn.white {
+  background: var(--bg-card);
+}
+
+.brutal-input,
+.brutal-select {
+  width: 100%;
+  min-height: 44px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  color: var(--ink);
+  border: var(--border-brutal);
+  border-radius: var(--radius-brutal);
+}
+
+.brutal-input:focus,
+.brutal-select:focus {
+  background: var(--gold-soft);
+  box-shadow: 3px 3px 0px #111111;
+}
+
+.brutal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border: 2px solid #111111;
+  border-radius: 6px;
+  background: var(--gold-soft);
+  color: var(--ink);
+}
+
+.brutal-badge.pemasukan {
+  background: var(--emerald-soft);
+}
+
+.brutal-badge.pengeluaran {
+  background: var(--coral-soft);
+}
+
+.app-footer {
+  width: 100%;
+  margin-top: auto;
+  background: var(--bg-card);
+  border-top: var(--border-brutal);
+}
+
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 20px 14px 36px;
+  }
+
+  .footer-inner {
+    padding: 14px;
+  }
+
+  .brutal-card {
+    padding: 16px;
+  }
+}
