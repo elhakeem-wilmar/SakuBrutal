@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router";
 import {
-  BookOpen,
   LayoutDashboard,
   ArrowLeftRight,
   PiggyBank,
@@ -16,15 +15,39 @@ function Navbar({ padaResetData }) {
       <div className="navbar-inner">
         <div className="navbar-brand">
           <div className="brand-icon" aria-hidden="true">
-            <BookOpen size={22} strokeWidth={2.5} />
+            <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+              <path
+                d="M14 19L25 46L36 19"
+                stroke="#F8F6F0"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M35 46V19H50"
+                stroke="#C5A46D"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <line
+                x1="35"
+                y1="32"
+                x2="46"
+                y2="32"
+                stroke="#C5A46D"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+              />
+            </svg>
           </div>
           <div>
-            <span className="brand-title">SAKUBRUTAL</span>
-            <span className="brand-subtitle">Buku Catatan Arus Kas & Tabungan</span>
+            <span className="brand-title">VERVE FOLIO</span>
+            <span className="brand-subtitle">Personal Cashflow & Savings</span>
           </div>
         </div>
 
-        <nav className="navbar-links" aria-label="Navigasi Utama">
+        <nav className="navbar-links" aria-label="Primary Navigation">
           <NavLink
             to="/"
             end
@@ -32,8 +55,8 @@ function Navbar({ padaResetData }) {
               isActive ? "nav-item active" : "nav-item"
             }
           >
-            <LayoutDashboard size={18} strokeWidth={2.5} aria-hidden="true" />
-            <span>Beranda</span>
+            <LayoutDashboard size={17} strokeWidth={2} aria-hidden="true" />
+            <span>Overview</span>
           </NavLink>
 
           <NavLink
@@ -42,8 +65,8 @@ function Navbar({ padaResetData }) {
               isActive ? "nav-item active" : "nav-item"
             }
           >
-            <ArrowLeftRight size={18} strokeWidth={2.5} aria-hidden="true" />
-            <span>Transaksi</span>
+            <ArrowLeftRight size={17} strokeWidth={2} aria-hidden="true" />
+            <span>Ledger</span>
           </NavLink>
 
           <NavLink
@@ -52,8 +75,8 @@ function Navbar({ padaResetData }) {
               isActive ? "nav-item active" : "nav-item"
             }
           >
-            <PiggyBank size={18} strokeWidth={2.5} aria-hidden="true" />
-            <span>Target Tabungan</span>
+            <PiggyBank size={17} strokeWidth={2} aria-hidden="true" />
+            <span>Savings Vault</span>
           </NavLink>
         </nav>
 
@@ -64,7 +87,7 @@ function Navbar({ padaResetData }) {
             onClick={padaResetData}
             title="Kosongkan seluruh data kembali ke Rp 0"
           >
-            <RotateCcw size={16} strokeWidth={2.5} aria-hidden="true" />
+            <RotateCcw size={15} strokeWidth={2} aria-hidden="true" />
             <span>Reset</span>
           </button>
         </div>

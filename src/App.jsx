@@ -6,7 +6,6 @@ import Beranda from "./pages/Beranda";
 import Transaksi from "./pages/Transaksi";
 import TargetTabungan from "./pages/TargetTabungan";
 import NotFound from "./pages/NotFound";
-import { DATA_TRANSAKSI_AWAL, DATA_TARGET_AWAL } from "./data";
 
 const KUNCI_STORAGE_TRX = "sakubrutal_transaksi_v3";
 const KUNCI_STORAGE_TARGET = "sakubrutal_target_v3";
@@ -41,7 +40,7 @@ function LayoutUtama({ padaResetData, pesanErrorStorage }) {
       </div>
       <footer className="app-footer">
         <div className="footer-inner">
-          <span className="mono">&copy;El Hakeem Wilmar - Praktikum DPW </span>
+          <span className="mono">&copy; El Hakeem Wilmar &middot; Verve Folio</span>
         </div>
       </footer>
     </div>

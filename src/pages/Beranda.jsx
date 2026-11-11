@@ -20,23 +20,23 @@ function Beranda({ daftarTransaksi, padaTambahTransaksi, padaHapusTransaksi }) {
   const statistik = hitungStatistik(transaksiPeriode);
   const transaksiTerbaru = transaksiPeriode.slice(0, 5);
   const labelPeriode =
-    PERIODE_LIST.find((p) => p.id === periodeAktif)?.label || "Periode Ini";
+    PERIODE_LIST.find((p) => p.id === periodeAktif)?.label || "This Period";
 
   return (
     <main className="page-container">
       <section className="hero-banner brutal-card">
         <div className="hero-text">
-          <h1 className="page-heading">Catatan & Statistik Arus Kas</h1>
+          <h1 className="page-heading">Cashflow Overview & Analytics</h1>
           <p className="page-sub">
-            Pilih rentang waktu harian, mingguan, atau bulanan untuk memantau
-            perbandingan pemasukan dan porsi pengeluaran per kategori.
+            Pantau arus kas masuk, distribusi pengeluaran per kategori, dan
+            ringkasan finansial berdasarkan rentang waktu pilihanmu.
           </p>
         </div>
 
         <div
           className="periode-tabs"
           role="group"
-          aria-label="Filter rentang waktu beranda"
+          aria-label="Filter timeframe"
         >
           {PERIODE_LIST.map((item) => (
             <button
@@ -54,35 +54,35 @@ function Beranda({ daftarTransaksi, padaTambahTransaksi, padaHapusTransaksi }) {
         </div>
       </section>
 
-      <section className="summary-grid-two" aria-label="Ringkasan nominal periode terpilih">
+      <section className="summary-grid-two" aria-label="Period summary">
         <KartuRingkasan
-          judul={`PEMASUKAN (${labelPeriode.toUpperCase()})`}
+          judul={`CASH INFLOW (${labelPeriode.toUpperCase()})`}
           nominal={statistik.pemasukan}
           varian="emerald"
           keterangan={`${statistik.jumlahPemasukan} catatan pemasukan pada periode ini`}
         >
-          <TrendingUp size={22} strokeWidth={2.5} />
+          <TrendingUp size={20} strokeWidth={2} />
         </KartuRingkasan>
 
         <KartuRingkasan
-          judul={`PENGELUARAN (${labelPeriode.toUpperCase()})`}
+          judul={`CASH OUTFLOW (${labelPeriode.toUpperCase()})`}
           nominal={statistik.pengeluaran}
           varian="coral"
           keterangan={`${statistik.jumlahPengeluaran} catatan pengeluaran (Rata-rata ${formatRupiah(
             statistik.rataRataPengeluaran,
           )} / transaksi)`}
         >
-          <TrendingDown size={22} strokeWidth={2.5} />
+          <TrendingDown size={20} strokeWidth={2} />
         </KartuRingkasan>
       </section>
 
-      <section className="stats-grid" aria-label="Statistik arus kas dan kategori">
+      <section className="stats-grid" aria-label="Cashflow and category statistics">
         <article className="brutal-card stats-card">
           <div className="stats-header">
             <h2 className="section-title">
-              Bagaimana Perbandingan Masuk vs Keluar ({labelPeriode})?
+              How Does Inflow Compare to Outflow ({labelPeriode})?
             </h2>
-            <BarChart3 size={20} strokeWidth={2.5} aria-hidden="true" />
+            <BarChart3 size={19} strokeWidth={2} aria-hidden="true" />
           </div>
 
           {statistik.pemasukan === 0 && statistik.pengeluaran === 0 ? (
@@ -95,7 +95,7 @@ function Beranda({ daftarTransaksi, padaTambahTransaksi, padaHapusTransaksi }) {
               <div
                 className="cashflow-bar"
                 role="img"
-                aria-label={`Proporsi pemasukan ${statistik.persenPemasukan} persen dan pengeluaran ${statistik.persenPengeluaran} persen`}
+                aria-label={`Inflow proportion ${statistik.persenPemasukan}% and outflow proportion ${statistik.persenPengeluaran}%`}
               >
                 {statistik.persenPemasukan > 0 && (
                   <div
@@ -119,21 +119,21 @@ function Beranda({ daftarTransaksi, padaTambahTransaksi, padaHapusTransaksi }) {
                 <div className="legend-item">
                   <span className="legend-swatch pemasukan" aria-hidden="true" />
                   <span>
-                    Masuk: {formatRupiah(statistik.pemasukan)} (
+                    Inflow: {formatRupiah(statistik.pemasukan)} (
                     {statistik.persenPemasukan}%)
                   </span>
                 </div>
                 <div className="legend-item">
                   <span className="legend-swatch pengeluaran" aria-hidden="true" />
                   <span>
-                    Keluar: {formatRupiah(statistik.pengeluaran)} (
+                    Outflow: {formatRupiah(statistik.pengeluaran)} (
                     {statistik.persenPengeluaran}%)
                   </span>
                 </div>
               </div>
 
               <div className="stats-highlight">
-                <span>Rata-rata pengeluaran per transaksi:</span>
+                <span>Average Outflow per Entry:</span>
                 <strong className="mono">
                   {formatRupiah(statistik.rataRataPengeluaran)}
                 </strong>
@@ -145,15 +145,15 @@ function Beranda({ daftarTransaksi, padaTambahTransaksi, padaHapusTransaksi }) {
         <article className="brutal-card stats-card">
           <div className="stats-header">
             <h2 className="section-title">
-              Ke Mana Pengeluaran Terbesar pada {labelPeriode}?
+              Where Do Top Outflows Go ({labelPeriode})?
             </h2>
-            <PieChart size={20} strokeWidth={2.5} aria-hidden="true" />
+            <PieChart size={19} strokeWidth={2} aria-hidden="true" />
           </div>
 
           {statistik.perKategori.length === 0 ? (
             <p className="empty-state">
               Tidak ada pengeluaran tercatat pada {labelPeriode.toLowerCase()}.
-              Pilih tab periode lain atau tambahkan catatan pengeluaran baru.
+              Pilih rentang waktu lain atau tambahkan catatan pengeluaran baru.
             </p>
           ) : (
             <ul className="kategori-stat-list">
@@ -184,10 +184,10 @@ function Beranda({ daftarTransaksi, padaTambahTransaksi, padaHapusTransaksi }) {
         <div className="brutal-card recent-box">
           <div className="box-header">
             <h2 className="section-title">
-              Catatan pada {labelPeriode} ({transaksiPeriode.length})
+              Recent Entries ({labelPeriode}: {transaksiPeriode.length})
             </h2>
             <NavLink to="/transaksi" className="link-more">
-              Buka Semua Riwayat 
+              View Full Ledger
             </NavLink>
           </div>
 

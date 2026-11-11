@@ -41,9 +41,9 @@ function FormTransaksi({ padaTambah }) {
 
   return (
     <form className="brutal-card trx-form" onSubmit={tanganiSubmit} noValidate>
-      <h2 className="section-title">Catat Transaksi Baru</h2>
+      <h2 className="section-title">New Ledger Entry</h2>
 
-      <div className="tipe-switcher" role="group" aria-label="Pilih tipe transaksi">
+      <div className="tipe-switcher" role="group" aria-label="Select entry type">
         <button
           type="button"
           aria-pressed={tipe === "pemasukan"}
@@ -53,7 +53,7 @@ function FormTransaksi({ padaTambah }) {
             setKategori("Gaji & Proyek");
           }}
         >
-          + Pemasukan
+          + Inflow
         </button>
         <button
           type="button"
@@ -64,12 +64,12 @@ function FormTransaksi({ padaTambah }) {
             setKategori("Makanan & Minuman");
           }}
         >
-          - Pengeluaran
+          - Outflow
         </button>
       </div>
 
       <div className="form-group">
-        <label htmlFor="input-judul">Keterangan Transaksi</label>
+        <label htmlFor="input-judul">Description</label>
         <input
           id="input-judul"
           type="text"
@@ -82,7 +82,7 @@ function FormTransaksi({ padaTambah }) {
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="input-nominal">Nominal (Rp)</label>
+          <label htmlFor="input-nominal">Amount (Rp)</label>
           <input
             id="input-nominal"
             type="number"
@@ -95,7 +95,7 @@ function FormTransaksi({ padaTambah }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="input-tanggal">Tanggal</label>
+          <label htmlFor="input-tanggal">Date</label>
           <input
             id="input-tanggal"
             type="date"
@@ -107,7 +107,7 @@ function FormTransaksi({ padaTambah }) {
       </div>
 
       <div className="form-group">
-        <label htmlFor="input-kategori">Kategori</label>
+        <label htmlFor="input-kategori">Category</label>
         <select
           id="input-kategori"
           className="brutal-select"
@@ -134,8 +134,8 @@ function FormTransaksi({ padaTambah }) {
           tipe === "pemasukan" ? "emerald" : "coral"
         }`}
       >
-        <PlusCircle size={19} strokeWidth={2.5} aria-hidden="true" />
-        <span>Catat {tipe === "pemasukan" ? "Pemasukan" : "Pengeluaran"}</span>
+        <PlusCircle size={18} strokeWidth={2} aria-hidden="true" />
+        <span>Record {tipe === "pemasukan" ? "Inflow" : "Outflow"}</span>
       </button>
     </form>
   );

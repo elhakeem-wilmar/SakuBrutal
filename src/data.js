@@ -8,10 +8,10 @@ export const KATEGORI_LIST = [
 ];
 
 export const PERIODE_LIST = [
-  { id: "harian", label: "Harian (Hari Ini)" },
-  { id: "mingguan", label: "Mingguan (7 Hari)" },
-  { id: "bulanan", label: "Bulanan (30 Hari)" },
-  { id: "semua", label: "Semua Waktu" },
+  { id: "harian", label: "Daily (Today)" },
+  { id: "mingguan", label: "Weekly (7 Days)" },
+  { id: "bulanan", label: "Monthly (30 Days)" },
+  { id: "semua", label: "All Time" },
 ];
 
 // Menghasilkan string YYYY-MM-DD mundur sejumlah hari dari hari ini agar filter Harian/Mingguan/Bulanan selalu memiliki sampel data aktif

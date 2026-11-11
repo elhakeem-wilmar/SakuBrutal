@@ -8,16 +8,16 @@ function NotFound() {
     <main className="notfound-screen">
       <section className="brutal-card notfound-box">
         <div className="notfound-icon" aria-hidden="true">
-          <AlertOctagon size={42} strokeWidth={2.5} />
+          <AlertOctagon size={36} strokeWidth={2} />
         </div>
-        <h1 className="page-heading">404: Halaman Tidak Ditemukan</h1>
+        <h1 className="page-heading">404: Page Not Found</h1>
         <p className="page-sub">
-          Alamat URL yang kamu tuju tidak terdaftar di sistem pencatatan
-          SakuBrutal.
+          Alamat URL yang kamu tuju tidak terdaftar di sistem pencatatan Verve
+          Folio.
         </p>
         <NavLink to="/" className="brutal-btn">
-          <Home size={18} strokeWidth={2.5} aria-hidden="true" />
-          <span>Kembali ke Beranda</span>
+          <Home size={17} strokeWidth={2} aria-hidden="true" />
+          <span>Return to Overview</span>
         </NavLink>
       </section>
     </main>

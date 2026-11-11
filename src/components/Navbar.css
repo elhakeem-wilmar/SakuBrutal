@@ -1,23 +1,24 @@
 .navbar-wrapper {
   width: 100%;
   background: var(--bg-card);
-  border-bottom: var(--border-brutal);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 4px rgba(20, 28, 24, 0.03);
 }
 
 .navbar-inner {
   width: 100%;
-  padding: 14px 32px;
+  padding: 16px 36px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .brand-icon {
@@ -25,32 +26,36 @@
   height: 44px;
   display: grid;
   place-items: center;
-  background: var(--gold);
-  border: var(--border-brutal);
-  border-radius: var(--radius-brutal);
-  box-shadow: 2px 2px 0px #111111;
+  background: var(--emerald);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(15, 61, 46, 0.16);
   flex-shrink: 0;
 }
 
 .brand-title {
   display: block;
-  font-size: 1.2rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  color: var(--emerald);
 }
 
 .brand-subtitle {
   display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   color: var(--ink-muted);
+  margin-top: 2px;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -60,24 +65,27 @@
   justify-content: center;
   gap: 8px;
   min-height: 44px;
-  padding: 8px 14px;
-  font-weight: 800;
-  font-size: 0.92rem;
-  color: var(--ink);
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
   text-decoration: none;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: var(--radius-brutal);
+  transition: all 0.15s ease;
 }
 
 .nav-item:hover {
-  border-color: #111111;
+  color: var(--ink);
   background: var(--gold-soft);
+  border-color: var(--border-color);
 }
 
 .nav-item.active {
-  background: var(--gold);
-  border: var(--border-brutal);
-  box-shadow: 3px 3px 0px #111111;
+  background: var(--emerald);
+  color: #f8f6f0;
+  border-color: var(--emerald);
+  box-shadow: 0 2px 6px rgba(15, 61, 46, 0.15);
 }
 
 .navbar-actions {
@@ -86,7 +94,7 @@
 }
 
 .btn-reset {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
 }
 
 @media (max-width: 900px) {
@@ -105,7 +113,7 @@
 
 @media (max-width: 640px) {
   .navbar-inner {
-    padding: 14px;
+    padding: 14px 16px;
   }
 
   .navbar-links {

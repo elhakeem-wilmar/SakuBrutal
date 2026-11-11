@@ -27,14 +27,14 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
       <section className="brutal-card filter-bar">
         <div className="filter-header">
           <div>
-            <h1 className="page-heading">Riwayat Seluruh Transaksi</h1>
+            <h1 className="page-heading">Complete Transaction Ledger</h1>
             <p className="page-sub">
-              Cari dan saring catatan pemasukan maupun pengeluaran berdasarkan
-              kategori.
+              Cari dan saring seluruh catatan pemasukan maupun pengeluaran
+              berdasarkan kategori.
             </p>
           </div>
           <div className="filter-summary mono">
-            <span>{hasilFilter.length} catatan cocok</span>
+            <span>{hasilFilter.length} entries matched</span>
             <span className="summary-in">
               +{formatRupiah(ringkasanFilter.pemasukan)}
             </span>
@@ -47,10 +47,10 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
         <div className="filter-controls">
           <div className="search-box">
             <label htmlFor="cari-transaksi" className="sr-label">
-              Cari Keterangan Transaksi
+              Search Description
             </label>
             <div className="search-input-wrap">
-              <Search size={18} className="search-icon" aria-hidden="true" />
+              <Search size={17} className="search-icon" aria-hidden="true" />
               <input
                 id="cari-transaksi"
                 type="text"
@@ -65,7 +65,7 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
           <div className="select-group">
             <div className="filter-field">
               <label htmlFor="filter-tipe" className="sr-label">
-                 <Filter size={14} aria-hidden="true" /> Tipe Transaksi
+                <Filter size={13} aria-hidden="true" /> Entry Type
               </label>
               <select
                 id="filter-tipe"
@@ -73,15 +73,15 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
                 value={filterTipe}
                 onChange={(e) => setFilterTipe(e.target.value)}
               >
-                <option value="semua">Semua Tipe</option>
-                <option value="pemasukan">Pemasukan (+)</option>
-                <option value="pengeluaran">Pengeluaran (-)</option>
+                <option value="semua">All Types</option>
+                <option value="pemasukan">Inflow (+)</option>
+                <option value="pengeluaran">Outflow (-)</option>
               </select>
             </div>
 
             <div className="filter-field">
               <label htmlFor="filter-kategori" className="sr-label">
-                Kategori Transaksi
+                Category
               </label>
               <select
                 id="filter-kategori"
@@ -89,7 +89,7 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
                 value={filterKategori}
                 onChange={(e) => setFilterKategori(e.target.value)}
               >
-                <option value="semua">Semua Kategori</option>
+                <option value="semua">All Categories</option>
                 {KATEGORI_LIST.map((kat) => (
                   <option key={kat} value={kat}>
                     {kat}
@@ -101,9 +101,9 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
         </div>
       </section>
 
-      <section className="brutal-card" aria-label="Daftar hasil pencarian transaksi">
+      <section className="brutal-card" aria-label="Filtered ledger entries">
         <h2 className="section-title list-heading">
-          Daftar Catatan ({hasilFilter.length})
+          Ledger Records ({hasilFilter.length})
         </h2>
         {hasilFilter.length === 0 ? (
           <div className="empty-state-box">
@@ -120,7 +120,7 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
                   setFilterKategori("semua");
                 }}
               >
-                Tampilkan Semua Transaksi
+                Show All Entries
               </button>
             )}
           </div>

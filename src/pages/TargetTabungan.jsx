@@ -88,15 +88,15 @@ function TargetTabungan({
     <main className="page-container">
       <section className="brutal-card target-overview">
         <div>
-          <h1 className="page-heading">Target & Progres Tabungan</h1>
+          <h1 className="page-heading">Savings Vault & Goals</h1>
           <p className="page-sub">
-            Buat target barang atau dana impianmu, tentukan jumlahnya, dan catat
+            Buat target dana atau barang impianmu, tentukan jumlahnya, dan catat
             setiap uang yang berhasil kamu sisihkan hingga mencapai 100%.
           </p>
         </div>
 
         <div className="target-total-box mono">
-          <span className="target-total-label">Progres Seluruh Target</span>
+          <span className="target-total-label">Total Vault Progress</span>
           <strong className="target-total-num">
             {formatRupiah(totalTerkumpulSemua)} / {formatRupiah(totalTargetSemua)} (
             {persenKeseluruhan}%)
@@ -110,22 +110,22 @@ function TargetTabungan({
           onSubmit={tanganiBuatTarget}
           noValidate
         >
-          <h2 className="section-title">Buat Target Baru</h2>
+          <h2 className="section-title">Create New Vault</h2>
 
           <div className="form-group">
-            <label htmlFor="input-nama-target">Nama Target Tabungan</label>
+            <label htmlFor="input-nama-target">Goal Name</label>
             <input
               id="input-nama-target"
               type="text"
               className="brutal-input"
-              placeholder="Contoh: Beli Mobil"
+              placeholder="Contoh: Dana Darurat, Beli Laptop..."
               value={namaTarget}
               onChange={(e) => setNamaTarget(e.target.value)}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="input-nominal-target">Target Jumlah (Rp)</label>
+            <label htmlFor="input-nominal-target">Target Amount (Rp)</label>
             <input
               id="input-nominal-target"
               type="number"
@@ -139,7 +139,7 @@ function TargetTabungan({
 
           <div className="form-group">
             <label htmlFor="input-awal-target">
-              Uang Sudah Ditabung Saat Ini (Opsional, Rp)
+              Initial Deposit (Optional, Rp)
             </label>
             <input
               id="input-awal-target"
@@ -159,14 +159,14 @@ function TargetTabungan({
           )}
 
           <button type="submit" className="brutal-btn full-width">
-            <PlusCircle size={19} strokeWidth={2.5} aria-hidden="true" />
-            <span>Tambah Target Tabungan</span>
+            <PlusCircle size={18} strokeWidth={2} aria-hidden="true" />
+            <span>Create Savings Goal</span>
           </button>
         </form>
 
         <div className="target-list-wrapper">
           <h2 className="section-title list-heading">
-            Daftar Target Aktif   
+            Active Savings Vaults
           </h2>
 
           {daftarTarget.length === 0 ? (
@@ -205,12 +205,12 @@ function TargetTabungan({
                           {sudahTercapai ? (
                             <>
                               <CheckCircle2 size={13} aria-hidden="true" />
-                              Target Tercapai (100%)
+                              Goal Reached (100%)
                             </>
                           ) : (
                             <>
                               <PiggyBank size={13} aria-hidden="true" />
-                              Progres {persen}%
+                              Progress {persen}%
                             </>
                           )}
                         </span>
@@ -223,7 +223,7 @@ function TargetTabungan({
                         title={`Hapus target ${item.nama}`}
                         aria-label={`Hapus target ${item.nama}`}
                       >
-                        <Trash2 size={18} strokeWidth={2.5} aria-hidden="true" />
+                        <Trash2 size={17} strokeWidth={2} aria-hidden="true" />
                       </button>
                     </div>
 
@@ -244,7 +244,7 @@ function TargetTabungan({
                     </div>
 
                     <div className="budget-numbers mono">
-                      <span>Terkumpul: {formatRupiah(item.terkumpul)}</span>
+                      <span>Saved: {formatRupiah(item.terkumpul)}</span>
                       <span>Target: {formatRupiah(item.targetNominal)}</span>
                     </div>
 
@@ -264,7 +264,7 @@ function TargetTabungan({
                           htmlFor={`setor-${item.id}`}
                           className="setor-label"
                         >
-                          Tambah Uang Tabungan (Rp)
+                          Add Deposit (Rp)
                         </label>
                         <div className="setor-controls">
                           <input
@@ -282,14 +282,14 @@ function TargetTabungan({
                             }
                           />
                           <button type="submit" className="brutal-btn emerald">
-                            <Coins size={17} strokeWidth={2.5} aria-hidden="true" />
-                            <span>Tabung</span>
+                            <Coins size={16} strokeWidth={2} aria-hidden="true" />
+                            <span>Deposit</span>
                           </button>
                         </div>
                       </div>
 
                       <div className="quick-add-row">
-                        <span className="quick-label">Tambah cepat:</span>
+                        <span className="quick-label">Quick Deposit:</span>
                         <button
                           type="button"
                           className="brutal-btn white btn-sm mono"
@@ -338,4 +338,3 @@ TargetTabungan.propTypes = {
 };
 
 export default TargetTabungan;
-
