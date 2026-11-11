@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Bayangan Neobrutalism -->
+  <rect x="8" y="8" width="52" height="52" rx="10" fill="#111111" />
+  <!-- Kartu Utama Emas -->
+  <rect x="4" y="4" width="52" height="52" rx="10" fill="#FACC15" stroke="#111111" stroke-width="4" />
+  
+  <!-- Ikon Buku Catatan / Saku Finansial -->
+  <!-- Halaman Kiri -->
+  <path d="M16 22C21 20 26 21 30 23V44C26 42 21 41 16 43V22Z" fill="#FFFDF5" stroke="#111111" stroke-width="3" stroke-linejoin="round" />
+  <!-- Halaman Kanan -->
+  <path d="M44 22C39 20 34 21 30 23V44C34 42 39 41 44 43V22Z" fill="#FFFDF5" stroke="#111111" stroke-width="3" stroke-linejoin="round" />
+  
+  <!-- Tulang Buku Tengah -->
+  <line x1="30" y1="23" x2="30" y2="44" stroke="#111111" stroke-width="3" stroke-linecap="round" />
+  
+  <!-- Aksen Koin / Simbol Uang Hijau Emerald Kecil di Atas -->
+  <circle cx="44" cy="14" r="5" fill="#22C55E" stroke="#111111" stroke-width="2.5" />
+</svg>
+

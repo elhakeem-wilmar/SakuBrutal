@@ -8,21 +8,21 @@ import TargetTabungan from "./pages/TargetTabungan";
 import NotFound from "./pages/NotFound";
 import { DATA_TRANSAKSI_AWAL, DATA_TARGET_AWAL } from "./data";
 
-const KUNCI_STORAGE_TRX = "sakubrutal_transaksi_v2";
-const KUNCI_STORAGE_TARGET = "sakubrutal_target_v2";
+const KUNCI_STORAGE_TRX = "sakubrutal_transaksi_v3";
+const KUNCI_STORAGE_TARGET = "sakubrutal_target_v3";
 
 // shortcut: penyimpanan di localStorage per-browser (~5MB), upgrade ke database/API jika butuh sinkronisasi multi-perangkat
 function muatDataLokal(kunci, nilaiDefault) {
   try {
     const tersimpan = localStorage.getItem(kunci);
     return {
-      data: tersimpan ? JSON.parse(tersimpan) : nilaiDefault,
+      data: tersimpan !== null ? JSON.parse(tersimpan) : nilaiDefault,
       error: null,
     };
   } catch {
     return {
       data: nilaiDefault,
-      error: "Penyimpanan lokal browser gagal dibaca. Menampilkan data sampel awal.",
+      error: "Penyimpanan lokal browser gagal dibaca. Menampilkan data awal.",
     };
   }
 }
@@ -54,8 +54,8 @@ LayoutUtama.propTypes = {
 };
 
 function App() {
-  const hasilAwalTrx = muatDataLokal(KUNCI_STORAGE_TRX, DATA_TRANSAKSI_AWAL);
-  const hasilAwalTarget = muatDataLokal(KUNCI_STORAGE_TARGET, DATA_TARGET_AWAL);
+  const hasilAwalTrx = muatDataLokal(KUNCI_STORAGE_TRX, []);
+  const hasilAwalTarget = muatDataLokal(KUNCI_STORAGE_TARGET, []);
 
   const [daftarTransaksi, setDaftarTransaksi] = useState(hasilAwalTrx.data);
   const [daftarTarget, setDaftarTarget] = useState(hasilAwalTarget.data);
@@ -108,11 +108,11 @@ function App() {
 
   function resetKeDataAwal() {
     setSedangMemuat(true);
-    setDaftarTransaksi(DATA_TRANSAKSI_AWAL);
-    setDaftarTarget(DATA_TARGET_AWAL);
+    setDaftarTransaksi([]);
+    setDaftarTarget([]);
     setErrorStorage(null);
-    localStorage.removeItem(KUNCI_STORAGE_TRX);
-    localStorage.removeItem(KUNCI_STORAGE_TARGET);
+    localStorage.setItem(KUNCI_STORAGE_TRX, JSON.stringify([]));
+    localStorage.setItem(KUNCI_STORAGE_TARGET, JSON.stringify([]));
     setTimeout(() => setSedangMemuat(false), 150);
   }
 
@@ -120,8 +120,8 @@ function App() {
     return (
       <main className="notfound-screen" aria-busy="true">
         <section className="brutal-card notfound-box">
-          <h1 className="page-heading">Memuat Ulang Data...</h1>
-          <p className="page-sub">Mengembalikan catatan sampel awal.</p>
+          <h1 className="page-heading">Mereset Data...</h1>
+          <p className="page-sub">Mengosongkan seluruh catatan keuangan.</p>
         </section>
       </main>
     );

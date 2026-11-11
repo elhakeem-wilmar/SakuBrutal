@@ -62,10 +62,10 @@ function Navbar({ padaResetData }) {
             type="button"
             className="brutal-btn white btn-reset"
             onClick={padaResetData}
-            title="Kembalikan contoh data awal dari src/data.js"
+            title="Kosongkan seluruh data kembali ke Rp 0"
           >
             <RotateCcw size={16} strokeWidth={2.5} aria-hidden="true" />
-            <span>Reset Data Sampel</span>
+            <span>Reset</span>
           </button>
         </div>
       </div>
