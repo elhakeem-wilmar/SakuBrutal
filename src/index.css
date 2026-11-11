@@ -62,9 +62,7 @@ select:disabled {
 .app-shell {
   flex: 1;
   width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 28px 20px 48px;
+  padding: 28px 32px 48px;
 }
 
 .brutal-card {
@@ -170,9 +168,8 @@ select:disabled {
 }
 
 .footer-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 16px 20px;
+  width: 100%;
+  padding: 16px 32px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
