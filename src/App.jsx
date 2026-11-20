@@ -13,7 +13,6 @@ const KUNCI_STORAGE_TARGET = "sakubrutal_target_v3";
 const KUNCI_STORAGE_ANGGARAN = "wilmar_anggaran_bulanan_v1";
 const KUNCI_STORAGE_TEMA = "wilmar_tema_v1";
 
-// shortcut: penyimpanan di localStorage per-browser (~5MB), gunakan Backup/Restore JSON untuk pindah perangkat
 function muatDataLokal(kunci, nilaiDefault) {
   try {
     const tersimpan = localStorage.getItem(kunci);
