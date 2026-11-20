@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, ArrowUpDown, FileSpreadsheet } from "lucide-react";
 import ItemTransaksi from "../components/ItemTransaksi";
-import { KATEGORI_LIST, hitungStatistik, formatRupiah } from "../data";
+import {
+  KATEGORI_LIST,
+  hitungStatistik,
+  formatRupiah,
+  buatCsvTransaksi,
+  unduhFile,
+  tanggalRelatif,
+} from "../data";
 import "./Pages.css";
 
-function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
+function Transaksi({ daftarTransaksi, padaEditTransaksi, padaHapusTransaksi }) {
   const [kataKunci, setKataKunci] = useState("");
   const [filterTipe, setFilterTipe] = useState("semua");
   const [filterKategori, setFilterKategori] = useState("semua");
+  const [urutan, setUrutan] = useState("terbaru");
 
   const hasilFilter = daftarTransaksi.filter((item) => {
     const cocokKata = item.judul
@@ -20,7 +28,24 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
     return cocokKata && cocokTipe && cocokKategori;
   });
 
-  const ringkasanFilter = hitungStatistik(hasilFilter);
+  const hasilUrut = [...hasilFilter].sort((a, b) => {
+    if (urutan === "terbesar") return b.nominal - a.nominal;
+    if (urutan === "terkecil") return a.nominal - b.nominal;
+    if (urutan === "terlama") return a.tanggal.localeCompare(b.tanggal);
+    return b.tanggal.localeCompare(a.tanggal);
+  });
+
+  const ringkasanFilter = hitungStatistik(hasilUrut);
+
+  function tanganiEksporCsv() {
+    if (hasilUrut.length === 0) return;
+    const isiCsv = buatCsvTransaksi(hasilUrut);
+    unduhFile(
+      `wilmar-trance-ledger-${tanggalRelatif(0)}.csv`,
+      isiCsv,
+      "text/csv;charset=utf-8;",
+    );
+  }
 
   return (
     <main className="page-container">
@@ -29,18 +54,40 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
           <div>
             <h1 className="page-heading">Complete Transaction Ledger</h1>
             <p className="page-sub">
-              Cari dan saring seluruh catatan pemasukan maupun pengeluaran
-              berdasarkan kategori.
+              Cari, saring, urutkan, edit catatan, atau unduh laporan arus kas
+              dalam format CSV.
             </p>
           </div>
-          <div className="filter-summary mono">
-            <span>{hasilFilter.length} entries matched</span>
-            <span className="summary-in">
-              +{formatRupiah(ringkasanFilter.pemasukan)}
-            </span>
-            <span className="summary-out">
-              -{formatRupiah(ringkasanFilter.pengeluaran)}
-            </span>
+
+          <div className="filter-header-right">
+            <div className="filter-summary mono">
+              <span>{hasilUrut.length} entries</span>
+              <span className="summary-in">
+                +{formatRupiah(ringkasanFilter.pemasukan)}
+              </span>
+              <span className="summary-out">
+                -{formatRupiah(ringkasanFilter.pengeluaran)}
+              </span>
+              <span
+                className={
+                  ringkasanFilter.selisih >= 0 ? "summary-in" : "summary-out"
+                }
+              >
+                Net: {ringkasanFilter.selisih >= 0 ? "+" : "-"}
+                {formatRupiah(Math.abs(ringkasanFilter.selisih))}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              className="brutal-btn emerald btn-sm"
+              onClick={tanganiEksporCsv}
+              disabled={hasilUrut.length === 0}
+              title="Unduh daftar transaksi yang sedang ditampilkan ke file CSV (Excel)"
+            >
+              <FileSpreadsheet size={16} strokeWidth={2} aria-hidden="true" />
+              <span>Export CSV</span>
+            </button>
           </div>
         </div>
 
@@ -55,14 +102,14 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
                 id="cari-transaksi"
                 type="text"
                 className="brutal-input with-icon"
-                placeholder="Contoh: Beli rumah"
+                placeholder="Contoh: Honor asisten, Kopi, Bensin..."
                 value={kataKunci}
                 onChange={(e) => setKataKunci(e.target.value)}
               />
             </div>
           </div>
 
-          <div className="select-group">
+          <div className="select-group-three">
             <div className="filter-field">
               <label htmlFor="filter-tipe" className="sr-label">
                 <Filter size={13} aria-hidden="true" /> Entry Type
@@ -97,18 +144,57 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
                 ))}
               </select>
             </div>
+
+            <div className="filter-field">
+              <label htmlFor="urut-transaksi" className="sr-label">
+                <ArrowUpDown size={13} aria-hidden="true" /> Sort By
+              </label>
+              <select
+                id="urut-transaksi"
+                className="brutal-select"
+                value={urutan}
+                onChange={(e) => setUrutan(e.target.value)}
+              >
+                <option value="terbaru">Newest Date</option>
+                <option value="terlama">Oldest Date</option>
+                <option value="terbesar">Highest Amount</option>
+                <option value="terkecil">Lowest Amount</option>
+              </select>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="brutal-card" aria-label="Filtered ledger entries">
-        <h2 className="section-title list-heading">
-          Ledger Records ({hasilFilter.length})
-        </h2>
-        {hasilFilter.length === 0 ? (
+        <div className="box-header">
+          <h2 className="section-title">
+            Ledger Records ({hasilUrut.length})
+          </h2>
+          {(kataKunci ||
+            filterTipe !== "semua" ||
+            filterKategori !== "semua" ||
+            urutan !== "terbaru") && (
+            <button
+              type="button"
+              className="brutal-btn white btn-sm"
+              onClick={() => {
+                setKataKunci("");
+                setFilterTipe("semua");
+                setFilterKategori("semua");
+                setUrutan("terbaru");
+              }}
+            >
+              Reset Filter
+            </button>
+          )}
+        </div>
+
+        {hasilUrut.length === 0 ? (
           <div className="empty-state-box">
             <p className="empty-state">
-              Tidak ada transaksi yang cocok dengan filter pencarian saat ini.
+              {daftarTransaksi.length === 0
+                ? "Belum ada catatan transaksi tersimpan. Tambahkan transaksi pertamamu melalui halaman Overview."
+                : "Tidak ada transaksi yang cocok dengan filter pencarian saat ini."}
             </p>
             {(kataKunci || filterTipe !== "semua" || filterKategori !== "semua") && (
               <button
@@ -126,7 +212,7 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
           </div>
         ) : (
           <ul className="trx-list">
-            {hasilFilter.map((item) => (
+            {hasilUrut.map((item) => (
               <ItemTransaksi
                 key={item.id}
                 id={item.id}
@@ -135,6 +221,7 @@ function Transaksi({ daftarTransaksi, padaHapusTransaksi }) {
                 tipe={item.tipe}
                 kategori={item.kategori}
                 tanggal={item.tanggal}
+                padaEdit={padaEditTransaksi}
                 padaHapus={padaHapusTransaksi}
               />
             ))}
@@ -156,6 +243,7 @@ Transaksi.propTypes = {
       tanggal: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  padaEditTransaksi: PropTypes.func.isRequired,
   padaHapusTransaksi: PropTypes.func.isRequired,
 };
 

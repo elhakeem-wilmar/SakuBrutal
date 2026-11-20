@@ -2,7 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { formatRupiah } from "../data";
 
-function KartuRingkasan({ judul, nominal, varian, keterangan, children }) {
+function KartuRingkasan({
+  judul,
+  nominal,
+  awalan = "",
+  varian,
+  keterangan,
+  children,
+}) {
   return (
     <article className={`brutal-card summary-card ${varian}`}>
       <div className="summary-card-top">
@@ -11,7 +18,10 @@ function KartuRingkasan({ judul, nominal, varian, keterangan, children }) {
           {children}
         </div>
       </div>
-      <p className="summary-amount mono">{formatRupiah(nominal)}</p>
+      <p className="summary-amount mono">
+        {awalan}
+        {formatRupiah(Math.abs(nominal))}
+      </p>
       <p className="summary-note">{keterangan}</p>
     </article>
   );
@@ -20,6 +30,7 @@ function KartuRingkasan({ judul, nominal, varian, keterangan, children }) {
 KartuRingkasan.propTypes = {
   judul: PropTypes.string.isRequired,
   nominal: PropTypes.number.isRequired,
+  awalan: PropTypes.string,
   varian: PropTypes.oneOf(["gold", "emerald", "coral"]).isRequired,
   keterangan: PropTypes.string.isRequired,
   children: PropTypes.node,

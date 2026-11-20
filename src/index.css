@@ -1,21 +1,60 @@
 :root {
   --bg-paper: #f8f6f0;
   --bg-card: #ffffff;
+  --bg-card-hover: #fcfbf8;
   --bg-subtle: #f1ede2;
+  --hero-gradient: linear-gradient(135deg, #ffffff 0%, #f5efe4 100%);
   --ink: #141c18;
   --ink-muted: #525d56;
+  --heading-color: #0f3d2e;
   --emerald: #0f3d2e;
+  --emerald-hover: #17523f;
+  --emerald-text: #0f3d2e;
   --emerald-soft: #e6f2ed;
+  --emerald-border: #b7d7c8;
   --gold: #b08d57;
+  --gold-text: #7a5c29;
   --gold-soft: #f5efe4;
   --coral: #8c2d2d;
+  --coral-hover: #a33636;
+  --coral-text: #8c2d2d;
   --coral-soft: #f8ebeb;
+  --coral-border: #e4c1c1;
   --border-color: #d8d1c2;
   --border-strong: #b8ae99;
   --border-brutal: 1px solid var(--border-color);
   --shadow-brutal: 0 2px 6px rgba(20, 28, 24, 0.04);
   --shadow-brutal-lg: 0 8px 20px rgba(20, 28, 24, 0.07);
   --radius-brutal: 6px;
+}
+
+[data-theme="gelap"] {
+  --bg-paper: #0d1210;
+  --bg-card: #151d1a;
+  --bg-card-hover: #1b2521;
+  --bg-subtle: #202b26;
+  --hero-gradient: linear-gradient(135deg, #151d1a 0%, #1d241e 100%);
+  --ink: #f4f1ea;
+  --ink-muted: #a6b2ab;
+  --heading-color: #e6d5b8;
+  --emerald: #1c6b50;
+  --emerald-hover: #238262;
+  --emerald-text: #6ee7b7;
+  --emerald-soft: #132a22;
+  --emerald-border: #265443;
+  --gold: #c5a46d;
+  --gold-text: #e2c591;
+  --gold-soft: #23211b;
+  --coral: #9e3838;
+  --coral-hover: #b84343;
+  --coral-text: #fca5a5;
+  --coral-soft: #2a1718;
+  --coral-border: #5c2828;
+  --border-color: #28352f;
+  --border-strong: #3b4d44;
+  --border-brutal: 1px solid var(--border-color);
+  --shadow-brutal: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-brutal-lg: 0 10px 26px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -31,6 +70,7 @@ body {
   line-height: 1.55;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 a[href],
@@ -45,11 +85,11 @@ button:disabled,
 input:disabled,
 select:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 :focus-visible {
-  outline: 2px solid var(--emerald);
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
@@ -71,6 +111,23 @@ select:disabled {
   padding: 32px 36px 56px;
 }
 
+.status-banner {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.info-banner {
+  background: var(--emerald-soft);
+  border-color: var(--emerald-border);
+  color: var(--emerald-text);
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 12px 18px;
+}
+
 .brutal-card {
   background: var(--bg-card);
   border: var(--border-brutal);
@@ -79,7 +136,8 @@ select:disabled {
   padding: 24px;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease;
 }
 
 .brutal-card:hover {
@@ -122,8 +180,8 @@ select:disabled {
 }
 
 .brutal-btn:hover:not(:disabled) {
-  background: #17523f;
-  border-color: #17523f;
+  background: var(--emerald-hover);
+  border-color: var(--emerald-hover);
 }
 
 .brutal-btn.emerald {
@@ -133,8 +191,8 @@ select:disabled {
 }
 
 .brutal-btn.emerald:hover:not(:disabled) {
-  background: #17523f;
-  border-color: #17523f;
+  background: var(--emerald-hover);
+  border-color: var(--emerald-hover);
 }
 
 .brutal-btn.coral {
@@ -144,8 +202,8 @@ select:disabled {
 }
 
 .brutal-btn.coral:hover:not(:disabled) {
-  background: #a33636;
-  border-color: #a33636;
+  background: var(--coral-hover);
+  border-color: var(--coral-hover);
 }
 
 .brutal-btn.white {
@@ -171,13 +229,14 @@ select:disabled {
   color: var(--ink);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-brutal);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .brutal-input:focus,
 .brutal-select:focus {
   background: var(--bg-card);
-  border-color: var(--emerald);
-  box-shadow: 0 0 0 3px rgba(15, 61, 46, 0.1);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.15);
   outline: none;
 }
 
@@ -196,14 +255,14 @@ select:disabled {
 
 .brutal-badge.pemasukan {
   background: var(--emerald-soft);
-  border-color: #b7d7c8;
-  color: var(--emerald);
+  border-color: var(--emerald-border);
+  color: var(--emerald-text);
 }
 
 .brutal-badge.pengeluaran {
   background: var(--coral-soft);
-  border-color: #e4c1c1;
-  color: var(--coral);
+  border-color: var(--coral-border);
+  color: var(--coral-text);
 }
 
 .app-footer {

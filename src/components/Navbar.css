@@ -1,8 +1,11 @@
 .navbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   width: 100%;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 1px 4px rgba(20, 28, 24, 0.03);
+  box-shadow: 0 2px 10px rgba(20, 28, 24, 0.06);
 }
 
 .navbar-inner {
@@ -26,7 +29,7 @@
   height: 44px;
   display: grid;
   place-items: center;
-  background: var(--emerald);
+  background: #0f3d2e;
   border: 1px solid var(--gold);
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(15, 61, 46, 0.16);
@@ -40,7 +43,7 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 1.1;
-  color: var(--emerald);
+  color: var(--heading-color);
 }
 
 .brand-subtitle {
@@ -85,19 +88,40 @@
   background: var(--emerald);
   color: #f8f6f0;
   border-color: var(--emerald);
-  box-shadow: 0 2px 6px rgba(15, 61, 46, 0.15);
+  box-shadow: 0 2px 6px rgba(15, 61, 46, 0.18);
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.btn-reset {
-  font-size: 0.84rem;
+.btn-tool {
+  font-size: 0.82rem;
+  padding: 8px 13px;
 }
 
-@media (max-width: 900px) {
+.reset-confirm-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-only-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1100px) {
   .navbar-inner {
     gap: 14px;
   }
@@ -122,9 +146,13 @@
 
   .navbar-actions {
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .btn-reset {
-    width: 100%;
+  .reset-confirm-group {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }

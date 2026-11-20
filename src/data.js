@@ -1,10 +1,15 @@
 export const KATEGORI_LIST = [
   "Gaji & Proyek",
+  "Bisnis & Freelance",
   "Investasi",
   "Makanan & Minuman",
   "Transportasi",
+  "Belanja & Kebutuhan",
+  "Tagihan & Utilitas",
   "Kuliah & Buku",
+  "Kesehatan",
   "Hiburan & Langganan",
+  "Lainnya",
 ];
 
 export const PERIODE_LIST = [
@@ -14,7 +19,6 @@ export const PERIODE_LIST = [
   { id: "semua", label: "All Time" },
 ];
 
-// Menghasilkan string YYYY-MM-DD mundur sejumlah hari dari hari ini agar filter Harian/Mingguan/Bulanan selalu memiliki sampel data aktif
 export function tanggalRelatif(hariLalu = 0) {
   const tgl = new Date();
   tgl.setDate(tgl.getDate() - hariLalu);
@@ -154,6 +158,10 @@ export function hitungStatistik(daftarTransaksi) {
     }
   }
 
+  const selisih = pemasukan - pengeluaran;
+  const rasioTabungan =
+    pemasukan > 0 ? Math.round(((pemasukan - pengeluaran) / pemasukan) * 100) : 0;
+
   const totalVolume = pemasukan + pengeluaran;
   const persenPemasukan =
     totalVolume > 0 ? Math.round((pemasukan / totalVolume) * 100) : 0;
@@ -173,6 +181,8 @@ export function hitungStatistik(daftarTransaksi) {
   return {
     pemasukan,
     pengeluaran,
+    selisih,
+    rasioTabungan,
     jumlahPemasukan,
     jumlahPengeluaran,
     persenPemasukan,
@@ -182,7 +192,29 @@ export function hitungStatistik(daftarTransaksi) {
   };
 }
 
-// Self-check kalkulasi statistik dan filter periode saat modul dimuat
+export function buatCsvTransaksi(daftarTransaksi) {
+  const header = ["Tanggal", "Keterangan", "Tipe", "Kategori", "Nominal (Rp)"];
+  const baris = daftarTransaksi.map((item) => {
+    const teksAman = `"${String(item.judul || "").replace(/"/g, '""')}"`;
+    const katAman = `"${String(item.kategori || "").replace(/"/g, '""')}"`;
+    return [item.tanggal, teksAman, item.tipe, katAman, item.nominal].join(",");
+  });
+  return [header.join(","), ...baris].join("\n");
+}
+
+export function unduhFile(namaFile, isiTeks, mimeType = "text/plain;charset=utf-8;") {
+  const blob = new Blob([isiTeks], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const tautan = document.createElement("a");
+  tautan.href = url;
+  tautan.download = namaFile;
+  document.body.appendChild(tautan);
+  tautan.click();
+  document.body.removeChild(tautan);
+  URL.revokeObjectURL(url);
+}
+
+// Self-check kalkulasi statistik dan CSV saat modul dimuat
 const _ujiStat = hitungStatistik([
   { tipe: "pemasukan", nominal: 600000, kategori: "Gaji & Proyek" },
   { tipe: "pengeluaran", nominal: 200000, kategori: "Makanan & Minuman" },
@@ -191,6 +223,7 @@ const _ujiStat = hitungStatistik([
 console.assert(
   _ujiStat.pemasukan === 600000 &&
     _ujiStat.pengeluaran === 400000 &&
+    _ujiStat.selisih === 200000 &&
     _ujiStat.rataRataPengeluaran === 200000 &&
     _ujiStat.perKategori.length === 2,
   "Self-check hitungStatistik gagal",

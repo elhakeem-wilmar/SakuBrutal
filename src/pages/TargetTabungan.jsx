@@ -5,6 +5,10 @@ import {
   PlusCircle,
   CheckCircle2,
   Coins,
+  ArrowDownLeft,
+  Pencil,
+  Check,
+  X,
   Trash2,
 } from "lucide-react";
 import { formatRupiah } from "../data";
@@ -13,6 +17,7 @@ import "./Pages.css";
 function TargetTabungan({
   daftarTarget,
   padaBuatTarget,
+  padaEditTarget,
   padaTambahTabungan,
   padaHapusTarget,
 }) {
@@ -23,6 +28,11 @@ function TargetTabungan({
 
   const [inputSetoran, setInputSetoran] = useState({});
   const [errorSetoran, setErrorSetoran] = useState({});
+
+  const [idSedangEdit, setIdSedangEdit] = useState(null);
+  const [editNama, setEditNama] = useState("");
+  const [editTargetNominal, setEditTargetNominal] = useState("");
+  const [errorEditTarget, setErrorEditTarget] = useState("");
 
   const totalTargetSemua = daftarTarget.reduce(
     (sum, t) => sum + t.targetNominal,
@@ -36,6 +46,9 @@ function TargetTabungan({
     totalTargetSemua > 0
       ? Math.min(100, Math.round((totalTerkumpulSemua / totalTargetSemua) * 100))
       : 0;
+
+  const angkaTargetBaru = Number(nominalTarget);
+  const angkaAwalBaru = Number(tabunganAwal);
 
   function tanganiBuatTarget(e) {
     e.preventDefault();
@@ -68,18 +81,53 @@ function TargetTabungan({
     setPesanErrorForm("");
   }
 
-  function tanganiSetorManual(e, idTarget) {
+  function mulaiEditTarget(item) {
+    setIdSedangEdit(item.id);
+    setEditNama(item.nama);
+    setEditTargetNominal(String(item.targetNominal));
+    setErrorEditTarget("");
+  }
+
+  function simpanEditTarget(e, idTarget) {
     e.preventDefault();
+    const nilaiBaru = Number(editTargetNominal);
+    if (!editNama.trim()) {
+      setErrorEditTarget("Nama target tidak boleh kosong.");
+      return;
+    }
+    if (!Number.isFinite(nilaiBaru) || nilaiBaru <= 0) {
+      setErrorEditTarget("Target jumlah harus lebih dari Rp 0.");
+      return;
+    }
+
+    padaEditTarget({
+      id: idTarget,
+      nama: editNama.trim(),
+      targetNominal: Math.round(nilaiBaru),
+    });
+    setIdSedangEdit(null);
+  }
+
+  function tanganiTransaksiVault(idTarget, arah, saldoSaatIni) {
     const nilai = Number(inputSetoran[idTarget]);
     if (!Number.isFinite(nilai) || nilai <= 0) {
       setErrorSetoran((lama) => ({
         ...lama,
-        [idTarget]: "Masukkan nominal tabungan lebih dari Rp 0.",
+        [idTarget]: "Masukkan nominal lebih dari Rp 0.",
       }));
       return;
     }
 
-    padaTambahTabungan(idTarget, Math.round(nilai));
+    if (arah === "tarik" && nilai > saldoSaatIni) {
+      setErrorSetoran((lama) => ({
+        ...lama,
+        [idTarget]: `Penarikan melebihi dana terkumpul (${formatRupiah(saldoSaatIni)}).`,
+      }));
+      return;
+    }
+
+    const delta = arah === "tarik" ? -Math.round(nilai) : Math.round(nilai);
+    padaTambahTabungan(idTarget, delta);
     setInputSetoran((lama) => ({ ...lama, [idTarget]: "" }));
     setErrorSetoran((lama) => ({ ...lama, [idTarget]: "" }));
   }
@@ -90,8 +138,8 @@ function TargetTabungan({
         <div>
           <h1 className="page-heading">Savings Vault & Goals</h1>
           <p className="page-sub">
-            Buat target dana atau barang impianmu, tentukan jumlahnya, dan catat
-            setiap uang yang berhasil kamu sisihkan hingga mencapai 100%.
+            Buat target dana impianmu, kelola setoran maupun penarikan dana, dan
+            pantau progres tabungan hingga mencapai 100%.
           </p>
         </div>
 
@@ -110,7 +158,10 @@ function TargetTabungan({
           onSubmit={tanganiBuatTarget}
           noValidate
         >
-          <h2 className="section-title">Create New Vault</h2>
+          <div className="form-card-header">
+            <h2 className="section-title">Create New Vault</h2>
+            <span className="form-subtitle">Target tabungan baru</span>
+          </div>
 
           <div className="form-group">
             <label htmlFor="input-nama-target">Goal Name</label>
@@ -125,22 +176,36 @@ function TargetTabungan({
           </div>
 
           <div className="form-group">
-            <label htmlFor="input-nominal-target">Target Amount (Rp)</label>
+            <div className="label-with-preview">
+              <label htmlFor="input-nominal-target">Target Amount (Rp)</label>
+              {Number.isFinite(angkaTargetBaru) && angkaTargetBaru > 0 && (
+                <span className="rupiah-preview mono">
+                  {formatRupiah(Math.round(angkaTargetBaru))}
+                </span>
+              )}
+            </div>
             <input
               id="input-nominal-target"
               type="number"
               min="1"
               className="brutal-input mono"
-              placeholder="1500000"
+              placeholder="3000000"
               value={nominalTarget}
               onChange={(e) => setNominalTarget(e.target.value)}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="input-awal-target">
-              Initial Deposit (Optional, Rp)
-            </label>
+            <div className="label-with-preview">
+              <label htmlFor="input-awal-target">
+                Initial Deposit (Optional, Rp)
+              </label>
+              {Number.isFinite(angkaAwalBaru) && angkaAwalBaru > 0 && (
+                <span className="rupiah-preview mono">
+                  {formatRupiah(Math.round(angkaAwalBaru))}
+                </span>
+              )}
+            </div>
             <input
               id="input-awal-target"
               type="number"
@@ -166,7 +231,7 @@ function TargetTabungan({
 
         <div className="target-list-wrapper">
           <h2 className="section-title list-heading">
-            Active Savings Vaults
+            Active Savings Vaults ({daftarTarget.length})
           </h2>
 
           {daftarTarget.length === 0 ? (
@@ -191,41 +256,118 @@ function TargetTabungan({
                   item.targetNominal - item.terkumpul,
                 );
                 const sudahTercapai = item.terkumpul >= item.targetNominal;
+                const nilaiKetik = Number(inputSetoran[item.id]);
 
                 return (
                   <article key={item.id} className="brutal-card budget-card">
-                    <div className="budget-top">
-                      <div>
-                        <h3 className="budget-title">{item.nama}</h3>
-                        <span
-                          className={`brutal-badge ${
-                            sudahTercapai ? "pemasukan" : ""
-                          }`}
-                        >
-                          {sudahTercapai ? (
-                            <>
-                              <CheckCircle2 size={13} aria-hidden="true" />
-                              Goal Reached (100%)
-                            </>
-                          ) : (
-                            <>
-                              <PiggyBank size={13} aria-hidden="true" />
-                              Progress {persen}%
-                            </>
-                          )}
-                        </span>
-                      </div>
-
-                      <button
-                        type="button"
-                        className="btn-icon-delete"
-                        onClick={() => padaHapusTarget(item.id)}
-                        title={`Hapus target ${item.nama}`}
-                        aria-label={`Hapus target ${item.nama}`}
+                    {idSedangEdit === item.id ? (
+                      <form
+                        className="inline-edit-form"
+                        onSubmit={(e) => simpanEditTarget(e, item.id)}
+                        noValidate
                       >
-                        <Trash2 size={17} strokeWidth={2} aria-hidden="true" />
-                      </button>
-                    </div>
+                        <div className="inline-edit-header">
+                          <span className="inline-edit-badge">Edit Vault Goal</span>
+                          {Number(editTargetNominal) > 0 && (
+                            <span className="rupiah-preview mono">
+                              {formatRupiah(Math.round(Number(editTargetNominal)))}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor={`edit-nama-tgt-${item.id}`}>
+                            Goal Name
+                          </label>
+                          <input
+                            id={`edit-nama-tgt-${item.id}`}
+                            type="text"
+                            className="brutal-input"
+                            value={editNama}
+                            onChange={(e) => setEditNama(e.target.value)}
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor={`edit-nom-tgt-${item.id}`}>
+                            Target Amount (Rp)
+                          </label>
+                          <input
+                            id={`edit-nom-tgt-${item.id}`}
+                            type="number"
+                            min="1"
+                            className="brutal-input mono"
+                            value={editTargetNominal}
+                            onChange={(e) => setEditTargetNominal(e.target.value)}
+                          />
+                        </div>
+
+                        {errorEditTarget && (
+                          <p className="form-error" role="alert">
+                            {errorEditTarget}
+                          </p>
+                        )}
+
+                        <div className="inline-edit-actions">
+                          <button type="submit" className="brutal-btn emerald btn-sm">
+                            <Check size={15} strokeWidth={2} aria-hidden="true" />
+                            <span>Save Goal</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="brutal-btn white btn-sm"
+                            onClick={() => setIdSedangEdit(null)}
+                          >
+                            <X size={15} strokeWidth={2} aria-hidden="true" />
+                            <span>Cancel</span>
+                          </button>
+                        </div>
+                      </form>
+                    ) : (
+                      <div className="budget-top">
+                        <div>
+                          <h3 className="budget-title">{item.nama}</h3>
+                          <span
+                            className={`brutal-badge ${
+                              sudahTercapai ? "pemasukan" : ""
+                            }`}
+                          >
+                            {sudahTercapai ? (
+                              <>
+                                <CheckCircle2 size={13} aria-hidden="true" />
+                                Goal Reached (100%)
+                              </>
+                            ) : (
+                              <>
+                                <PiggyBank size={13} aria-hidden="true" />
+                                Progress {persen}%
+                              </>
+                            )}
+                          </span>
+                        </div>
+
+                        <div className="trx-action-btns">
+                          <button
+                            type="button"
+                            className="btn-icon-action"
+                            onClick={() => mulaiEditTarget(item)}
+                            title={`Edit target ${item.nama}`}
+                            aria-label={`Edit target ${item.nama}`}
+                          >
+                            <Pencil size={16} strokeWidth={2} aria-hidden="true" />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-icon-delete"
+                            onClick={() => padaHapusTarget(item.id)}
+                            title={`Hapus target ${item.nama}`}
+                            aria-label={`Hapus target ${item.nama}`}
+                          >
+                            <Trash2 size={17} strokeWidth={2} aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
 
                     <div
                       className="progress-track"
@@ -256,23 +398,33 @@ function TargetTabungan({
 
                     <form
                       className="setor-form"
-                      onSubmit={(e) => tanganiSetorManual(e, item.id)}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        tanganiTransaksiVault(item.id, "setor", item.terkumpul);
+                      }}
                       noValidate
                     >
                       <div className="setor-input-row">
-                        <label
-                          htmlFor={`setor-${item.id}`}
-                          className="setor-label"
-                        >
-                          Add Deposit (Rp)
-                        </label>
-                        <div className="setor-controls">
+                        <div className="label-with-preview">
+                          <label
+                            htmlFor={`setor-${item.id}`}
+                            className="setor-label"
+                          >
+                            Deposit / Withdraw Amount (Rp)
+                          </label>
+                          {Number.isFinite(nilaiKetik) && nilaiKetik > 0 && (
+                            <span className="rupiah-preview mono">
+                              {formatRupiah(Math.round(nilaiKetik))}
+                            </span>
+                          )}
+                        </div>
+                        <div className="setor-controls-dual">
                           <input
                             id={`setor-${item.id}`}
                             type="number"
                             min="1"
                             className="brutal-input mono"
-                            placeholder="Nominal ditabung..."
+                            placeholder="Nominal Rp..."
                             value={inputSetoran[item.id] || ""}
                             onChange={(e) =>
                               setInputSetoran((lama) => ({
@@ -281,9 +433,33 @@ function TargetTabungan({
                               }))
                             }
                           />
-                          <button type="submit" className="brutal-btn emerald">
-                            <Coins size={16} strokeWidth={2} aria-hidden="true" />
-                            <span>Deposit</span>
+                          <button
+                            type="submit"
+                            className="brutal-btn emerald btn-sm"
+                            title="Tambahkan ke tabungan"
+                          >
+                            <Coins size={15} strokeWidth={2} aria-hidden="true" />
+                            <span>+ Deposit</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="brutal-btn white btn-sm"
+                            disabled={item.terkumpul <= 0}
+                            onClick={() =>
+                              tanganiTransaksiVault(
+                                item.id,
+                                "tarik",
+                                item.terkumpul,
+                              )
+                            }
+                            title="Tarik atau kurangi saldo tabungan"
+                          >
+                            <ArrowDownLeft
+                              size={15}
+                              strokeWidth={2}
+                              aria-hidden="true"
+                            />
+                            <span>- Withdraw</span>
                           </button>
                         </div>
                       </div>
@@ -303,6 +479,13 @@ function TargetTabungan({
                           onClick={() => padaTambahTabungan(item.id, 100000)}
                         >
                           +Rp 100.000
+                        </button>
+                        <button
+                          type="button"
+                          className="brutal-btn white btn-sm mono"
+                          onClick={() => padaTambahTabungan(item.id, 500000)}
+                        >
+                          +Rp 500.000
                         </button>
                       </div>
 
@@ -333,6 +516,7 @@ TargetTabungan.propTypes = {
     }),
   ).isRequired,
   padaBuatTarget: PropTypes.func.isRequired,
+  padaEditTarget: PropTypes.func.isRequired,
   padaTambahTabungan: PropTypes.func.isRequired,
   padaHapusTarget: PropTypes.func.isRequired,
 };
